@@ -1,4 +1,5 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -6,6 +7,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from advertisements.permissions import IsUser, IsAdmin, IsOwnerForModelUser
 from config.settings import PATH_RESET_PASSWORD
 from users.models import User
 from users.serializers import (
@@ -24,6 +26,12 @@ class UserCreateAPIView(generics.CreateAPIView):
         new_user.is_active = True
         new_user.password = make_password(new_user.password)
         new_user.token = RefreshToken.for_user(new_user).access_token
+        if new_user.role == "user":
+            user_group = Group.objects.get(name="user")
+            new_user.groups.add(user_group)
+        elif new_user.role == "admin":
+            user_group = Group.objects.get(name="admin")
+            new_user.groups.add(user_group)
         new_user.save()
 
 
@@ -63,17 +71,21 @@ class UserResetPasswordConfirmAPIView(generics.CreateAPIView):
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsUser | IsAdmin]
 
 
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsOwnerForModelUser | IsAdmin]
 
 
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
+    permission_classes = [IsOwnerForModelUser | IsAdmin]
 
 
 class UserRetrieveAPIView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsUser | IsAdmin]

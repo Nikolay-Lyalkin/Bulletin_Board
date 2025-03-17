@@ -9,7 +9,11 @@ app_name = AdvertisementsConfig.name
 urlpatterns = [
     # Advertisement
     path("advertisements/", views.AdvertisementListAPIView.as_view(), name="advertisement_list"),
-    path("advertisements/comments/", views.AdvertisementWithCommentsListAPIView.as_view(), name="advertisement_with_comments_list"),
+    path(
+        "advertisements/comments/",
+        views.AdvertisementWithCommentsListAPIView.as_view(),
+        name="advertisement_with_comments_list",
+    ),
     path("advertisement/create/", views.AdvertisementCreateAPIView.as_view(), name="advertisement_create"),
     path(
         "advertisement/<int:pk>/",

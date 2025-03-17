@@ -25,3 +25,10 @@ class AdvertisementCommentSerializer(ModelSerializer):
         model = Advertisement
         fields = ["title", "price", "description", "author", "created_at", "advertisement_comment"]
 
+
+class AdvertisementRetrieveSerializer(ModelSerializer):
+    advertisement_comment = CommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Advertisement
+        fields = ["title", "price", "description", "author", "created_at", "advertisement_comment"]
