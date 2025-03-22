@@ -32,8 +32,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "drf_yasg",
-    # "corsheaders",
+    "drf_yasg",
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -148,14 +148,21 @@ SIMPLE_JWT = {
 # URL-адрес брокера результатов, также Redis
 # CELERY_RESULT_BACKEND = "redis://redis/0"
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:8000",  # Замените на адрес вашего фронтенд-сервера
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",  # Замените на адрес вашего фронтенд-сервера
+]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера
-#     "http://localhost:8000",  # и добавьте адрес бэкенд-сервера
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера
+    "http://localhost:8000",  # и добавьте адрес бэкенд-сервера
+]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/0',
+    }
+}
 
 CORS_ALLOW_ALL_ORIGINS = False
 
