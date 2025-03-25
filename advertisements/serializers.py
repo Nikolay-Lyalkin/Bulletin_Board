@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from advertisements.models import Advertisement, Comment
@@ -25,3 +24,10 @@ class AdvertisementCommentSerializer(ModelSerializer):
         model = Advertisement
         fields = ["title", "price", "description", "author", "created_at", "advertisement_comment"]
 
+
+class AdvertisementRetrieveSerializer(ModelSerializer):
+    advertisement_comment = CommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Advertisement
+        fields = ["title", "price", "description", "author", "created_at", "advertisement_comment"]
