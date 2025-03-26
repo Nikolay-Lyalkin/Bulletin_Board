@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "pytest_django",
     # "django_celery_beat",
     "users",
     "advertisements",

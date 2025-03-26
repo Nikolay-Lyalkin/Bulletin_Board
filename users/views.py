@@ -2,20 +2,16 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from advertisements.permissions import IsUser, IsAdmin, IsOwnerForModelUser
+from advertisements.permissions import IsAdmin, IsOwnerForModelUser, IsUser
 from config.settings import PATH_RESET_PASSWORD
 from users.models import User
-from users.serializers import (
-    UserCreateSerializer,
-    UserSerializer,
-    UserResetPasswordSerializer,
-    UserResetPasswordConfirmSerializer,
-)
+from users.serializers import (UserCreateSerializer, UserResetPasswordConfirmSerializer, UserResetPasswordSerializer,
+                               UserSerializer)
 
 
 class UserCreateAPIView(generics.CreateAPIView):
