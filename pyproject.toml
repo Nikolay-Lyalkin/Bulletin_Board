@@ -24,6 +24,7 @@ django-cors-headers = "^4.7.0"
 redis = "^5.2.1"
 pytest-django = "^4.10.0"
 pytest-cov = "^6.0.0"
+locust = "^2.33.2"
 
 
 [build-system]
