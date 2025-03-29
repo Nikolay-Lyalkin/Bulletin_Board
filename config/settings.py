@@ -21,7 +21,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-PATH_RESET_PASSWORD = "http://127.0.0.1:8000/user/reset_password_confirm"
+PATH_RESET_PASSWORD = "http://84.252.132.134:8000/user/reset_password_confirm"
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "pytest_django",
     # "django_celery_beat",
     "users",
     "advertisements",

@@ -11,7 +11,7 @@ class User(AbstractUser):
     phone_number = models.CharField(verbose_name="Номер телефона", blank=True, null=True, max_length=20)
     image = models.FileField(upload_to="avatars/", verbose_name="Ваша фотография", blank=True, null=True)
     token = models.CharField(max_length=1000, verbose_name="Токен", blank=True, null=True)
-    role = models.CharField(verbose_name="Роль", blank=True, null=True, default="user", max_length=5)
+    role = models.CharField(verbose_name="Роль", default="user", max_length=5)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = [

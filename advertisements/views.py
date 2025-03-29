@@ -3,13 +3,9 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 
 from advertisements.models import Advertisement, Comment
 from advertisements.paginators import PaginationADS
-from advertisements.permissions import IsUser, IsOwner, IsAdmin
-from advertisements.serializers import (
-    AdvertisementSerializer,
-    CommentSerializer,
-    AdvertisementCommentSerializer,
-    AdvertisementRetrieveSerializer,
-)
+from advertisements.permissions import IsAdmin, IsOwner, IsUser
+from advertisements.serializers import (AdvertisementCommentSerializer, AdvertisementRetrieveSerializer,
+                                        AdvertisementSerializer, CommentSerializer)
 
 
 class AdvertisementListAPIView(generics.ListAPIView):
