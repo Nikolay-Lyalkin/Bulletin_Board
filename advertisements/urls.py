@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .apps import AdvertisementsConfig
-
 from advertisements import views
+
+from .apps import AdvertisementsConfig
 
 app_name = AdvertisementsConfig.name
 
