@@ -48,4 +48,15 @@ urlpatterns = [
         views.CommentUpdateAPIView.as_view(),
         name="comment_update",
     ),
+    # Basket
+    path(
+        "advertisement/<int:pk>/add_ad_in_basket/",
+        views.BasketItemCreateApiView.as_view(),
+        name="add_ad_in_basket",
+    ),
+    path(
+        "user/basket/",
+        views.BasketListApiView.as_view(),
+        name="user_basket",
+    ),
 ]

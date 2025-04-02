@@ -1,11 +1,13 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.response import Response
 
-from advertisements.models import Advertisement, Comment
+from advertisements.models import Advertisement, Comment, Basket, BasketItem
 from advertisements.paginators import PaginationADS
 from advertisements.permissions import IsAdmin, IsOwner, IsUser
 from advertisements.serializers import (AdvertisementCommentSerializer, AdvertisementRetrieveSerializer,
-                                        AdvertisementSerializer, CommentSerializer)
+                                        AdvertisementSerializer, CommentSerializer, BasketItemSerializer,
+                                        BasketSerializer)
 
 
 class AdvertisementListAPIView(generics.ListAPIView):
@@ -82,3 +84,34 @@ class CommentUpdateAPIView(generics.UpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsOwner | IsAdmin]
+
+
+class BasketItemCreateApiView(generics.CreateAPIView):
+    """ Добавляет товар в корзину """
+
+    serializer_class = BasketItemSerializer
+
+    def create(self, request, *args, **kwargs):
+        basket = Basket.objects.filter(user=request.user).first()
+        product = Advertisement.objects.filter(id=request.data["id"]).first()
+        basket_item = BasketItem.objects.create(basket=basket, product=product)
+        serializer = BasketItemSerializer(basket_item)
+        message = "Товар добавлен в корзину"
+
+        return Response({'message': message, 'data': serializer.data})
+
+
+class BasketListApiView(generics.ListAPIView):
+    """ Возвращает id товаров в корзине """
+
+    serializer_class = BasketSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        basket = Basket.objects.filter(user=user).first()
+        if basket:
+            products_in_basket = BasketItem.objects.filter(basket=basket)
+            serializer = self.get_serializer(products_in_basket, many=True)
+            return Response({'data': serializer.data})
+        else:
+            return Response({'data': []})

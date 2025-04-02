@@ -27,7 +27,6 @@ class Advertisement(models.Model):
 
 
 class Comment(models.Model):
-
     text = models.TextField(verbose_name="Содержание отзыва")
     author = models.ForeignKey(
         User,
@@ -52,3 +51,49 @@ class Comment(models.Model):
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
         db_table = "comments"
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="user_basket",
+        verbose_name="пользователь",
+    )
+
+    def __str__(self):
+        return f"{self.user}"
+
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+        db_table = "basket"
+
+
+class BasketItem(models.Model):
+    basket = models.ForeignKey(
+        Basket,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="basket_item",
+        verbose_name="корзина с товарами",
+    )
+    product = models.ForeignKey(
+        Advertisement,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="ad_in_basket",
+        verbose_name="товар в корзине",
+    )
+
+    def __str__(self):
+        return f"{self.basket} - {self.product}"
+
+    class Meta:
+        verbose_name = "Корзина c товаром"
+        verbose_name_plural = "Корзины с товаром"
+        db_table = "basket_item"

@@ -12,6 +12,7 @@ from config.settings import PATH_RESET_PASSWORD
 from users.models import User
 from users.serializers import (UserCreateSerializer, UserResetPasswordConfirmSerializer, UserResetPasswordSerializer,
                                UserSerializer)
+from advertisements.models import Basket
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -28,6 +29,7 @@ class UserCreateAPIView(generics.CreateAPIView):
         elif new_user.role == "admin":
             user_group = Group.objects.get(name="admin")
             new_user.groups.add(user_group)
+        Basket.objects.create(user=new_user)
         new_user.save()
 
 
